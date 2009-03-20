@@ -42,7 +42,7 @@ onload = function(){
             },
 
             // show progress status
-            onprogress:function(){
+            onprogress:function(rpe){
                 this.show((this.sent + rpe.loaded) * 100 / this.total, rpe.loaded * 100 / rpe.total);
             },
 
