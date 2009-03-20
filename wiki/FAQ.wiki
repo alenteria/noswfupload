@@ -1,3 +1,4 @@
+#labels Phase-QA
 #Frequently Asked Questions
 
 ==Browser Compatibility List==
@@ -65,3 +66,8 @@ Since noswfupload is a low level component, you can implement normalizations ove
 ==Why abort event does not work with IE and few others?==
 I am working for version 1.2 to make abort operation possible with every browser. The "_little_ _problem_" is that it is not that simple to remove runtime the iframe solution being sure it has been truly aborted (memory leaks). Anyway, something will be introduced in next release.
 ----
+
+
+
+==Can I Ask You More?==
+Yes please, use the comment area or my blog for this, I'll try to reply to every question about this project.
