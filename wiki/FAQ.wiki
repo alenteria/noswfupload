@@ -21,6 +21,21 @@ So far, the only incompatible browser is Chrome version 2.0.X beta. This browser
 
 
 
+==Did I read iframe? Are you serious?==
+To avoid full page submit and to be able to understand what is going on during upload, I chose an iframe element used o submit the run-time temporary created form.
+We all know that in environment under SSH Internet Explorer could show an error about unsecure items. noSWUpload solved this problem adding to the *wrap.url* set property an extra query string argument: *AjaxUploadFrame=true*.
+We can easily check for this argument in the query string and avoid every kind of operation in the page.
+For example, in the zip package the file receiver.php contains these two lines of code at the beginning:
+{{{
+if(isset($_GET['AjaxUploadFrame']))
+    exit;
+}}}
+The execution of this page will the fastest possible and nothing will be executed. This will ensure us that the empty iframe will not be stressful for our server.
+As long as we do not know a better way to avoid Internet Explorer error if an iframe has no src defined or a fake one, I think I will stuck with this solution without problems.
+----
+
+
+
 ==Dynamic CSS Inclusion==
 Since the main goal of this project is to be unobtrusive, I though it did not make sense to include CSS in the page without being sure that the browser supports JavaScript.
 You are obviously free to include as link or stylesheet one or more CSS (form one plus the icons set) without using noswfupload object, but to be constant and to respect project aims, dynamic CSS inclusion was my choice.
