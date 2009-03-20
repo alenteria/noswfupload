@@ -1,0 +1,68 @@
+#some basic example aobut noswfupload usage
+
+==Basic Implementation==
+This is a basic example about noswfupload.
+
+===(x)HTML Page===
+{{{
+<!--//
+This is a basic form ready to be used to send a file with "test" name.
+The server side file is, in this case, filereceiver.php, while it is important to specify
+the enctype of the form, "multipart/form-data", to make it compatible with uploads.
+//-->
+<form method="post" action="filereceiver.php" enctype="multipart/form-data">
+    <input type="file" name="test" />
+    <input class="submit" type="submit" value="Upload Files" />
+</form>
+}}}
+Above form will work without problems with every browser since it is just a basic upload form. noSWFUpload is unobtrusive because users whose disabled JavaScript (or those without) will simply use that form. In this case, if we do not want to redirect the user on submit, we should just add another DOM element, an iframe, as form target.
+
+===JavaScript===
+{{{
+// basic JavaScript to manage multiple uploads
+
+// add dedicated css
+noswfupload.css("css/noswfupload.css", "css/noswfupload-icons.css");
+
+// wrap the input onload event
+onload = function(){
+    
+    // wrap the input
+    var wrap = noswfupload.wrap(document.getElementsByTagName("input")[0]);
+
+    // add a click event to the submit button
+    document.getElementsByTagName("input")[1].onclick = function(){
+
+        // call upload event injecting events runtime
+        wrap.upload({
+
+            // activate progress bars and deactivate input
+            onloadstart:function(){
+                this.show(0)
+            },
+
+            // show progress status
+            onprogress:function(){
+                this.show((this.sent + rpe.loaded) * 100 / this.total, rpe.loaded * 100 / rpe.total);
+            },
+
+            // do something if an error occurs
+            onerror:function(){
+                alert("Error");
+            }
+
+            // clear the component
+            onload:function(){
+                this.clean(); // remove files
+                this.hide();  // hide scrollbars and activate input
+            }
+        });
+
+        // prevent click event propagation
+        return false;
+    };
+};
+}}}
+Above example is a basic one to obtain progress bars during one or multiple files upload.
+To see a better and more complete example, please visit this project [http://www.3site.eu/noswfupload/ demo page] *source* *code*.
+----
