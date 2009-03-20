@@ -1,0 +1,66 @@
+#Frequently Asked Questions
+
+==Browser Compatibility List==
+noSWFUpload should be compatible with almost every browser with JavaScript support and stable version, except for Safari 4 beta which works perfectly fine on the client but requires some adjustment on the server.
+
+===Tested Browsers===
+  * Internet Explorer 5.5, 6, 7, and 8 beta 2 via IETester application
+  * Internet Explorer 8 RC1 and last official and stable release
+  * FireFox 3, in deep 3.0.7
+  * Safari 4 beta
+  * Chrome 1
+  * Opera 10.00 alpha
+
+===Other Browsers===
+Since the script verifies if a browser has certain features, starting from sendAsBinary and upload property via XMLHttpRequest instance, every browser that is not implementing hese features will use an iframe as IE does. For this reason I am 99% sure that Internet Explorer 5, for example, will work, as every other Opera browser (9.X, 8, probably 7 as well) or old version of Safari.
+
+===Incompatible Browsers===
+So far, the only incompatible browser is Chrome version 2.0.X beta. This browser would like to behave as Safari 4 beta but its implementation is broken since there is no way, apparently, to retrieve or send binary data. The fileSize property is also broken since it returns 0 whatever file we choose. I am sure Chrome 2 stable will support noSWFUpload with full capabilities as is for Safari 4 beta.
+---- 
+
+
+
+==Dynamic CSS Inclusion==
+Since the main goal of this project is to be unobtrusive, I though it did not make sense to include CSS in the page without being sure that the browser supports JavaScript.
+You are obviously free to include as link or stylesheet one or more CSS (form one plus the icons set) without using noswfupload object, but to be constant and to respect project aims, dynamic CSS inclusion was my choice.
+---- 
+
+
+
+==Do I need PHP to receive or save the file?==
+noswfupload *is* *not* *related* to the server side. The only reason I included a couple of PHP files in the zip is that PHP is one of the most used website languages and there is a particular case, which exists only with Safari 4 beta, which is hard to solve whatever on-line PHP article/resource you read. I am talking about receiving directly the input recognizing correct headers since PHP could be installed in a webserver that is not Apache and since manipulate Safari 4 beta case is not that easy for hose who are designer rather than developers. Anyway, this case is specific for Safari 4 beta support, not necessary at all with or without PHP if you do not want to support Safari 4 beta (the final release will probably use the same way of FireFox 3.5)
+---- 
+
+
+
+==Is noswfupload.php a bottleneck for my application?==
+You'll fnd hard to measure that file execution time, which is 0 millisecond for every browser, and 0.1 milliseconds if the browser is Safari 4 beta. I tried to use best performances/security practices for that file, completely unobtrusive thanks to its fully runtime creation and execution. Are a couple of lambdas a problem for your server?
+---- 
+
+
+
+==Why do I receive one file a time?==
+To make both progress bars meaningful and to let users feel that something is happening having at least the number of sent files (iframe based solution) I decided to send one file a time.
+On the other hand, this is the only way so far to make Safari 4 beta fully compatible with noswfupload component interface since there is no way to retrieve binary data without using xhr.send(file). If we think about server implementation, one file a time is the most common scenario so far and it is even more simple to maintain/manage.
+I am sure this is not a problem if we know how to manage noswfupload events and for backward compatibility I strongly doubt I will change this behavior.
+---- 
+
+
+
+==Why progress bars in Safari 4 are correct while in other browsers are NOT?==
+The progress status was the main concern about noswfupload. We have 3 scenarios:
+  # latest XMLHttpRequest implementation with upload property and relative events plus possibility to retreive fileSize for each file
+  # updated XMLHttpRequest implementation without upload property but still the possibility to retrieve the fileSize of each selected file
+  # none of above implementations, iframe and regular inputs
+The first case scenario is the ideal one, the one that will be present in FireFox 3.5, Safari 4, Opera 10 (hopefully) and Chrome 2 (Internet Explorer is at least 5 years behind these browsers so we can only pray for IE9 and 2015 or "_maybe_", we can just download one of other free and better alternatives and forget Internet Explorer forever).
+In this case everything works fine and both loaded, sent, and total size are working fine.
+In the second case only the total size is real, plus sent data after each sent file.
+To emulate the progress I decided to implement an internal timer which increase the bar 1Kb a second. I know this speed is probably not the proper one but at leas it should be realistic enough for bad connections or big files to send (since there is a ratio up to the fileSize and after that the bar will not move).
+Last, but not least, the third case scenario. In this case the choice was simply a total number of files multiplied for 100, plus an increment from 1 to 100 for each current file.
+Since noswfupload is a low level component, you can implement normalizations over these cases for whatever library or plug-in you want ... the important thing, for noswfupload, s a progress which should make sense :-)
+---- 
+
+
+
+==Why abort event does not work with IE and few others?==
+I am working for version 1.2 to make abort operation possible with every browser. The "_little_ _problem_" is that it is not that simple to remove runtime the iframe solution being sure it has been truly aborted (memory leaks). Anyway, something will be introduced in next release.
