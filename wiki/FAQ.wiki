@@ -22,15 +22,15 @@ So far, the only incompatible browser is Chrome version 2.0.X beta. This browser
 
 
 ==Did I read iframe? Are you serious?==
-To avoid full page submit and to be able to understand what is going on during upload, I chose an iframe element used o submit the run-time temporary created form.
-We all know that in environment under SSH Internet Explorer could show an error about unsecure items. noSWUpload solved this problem adding to the *wrap.url* set property an extra query string argument: *AjaxUploadFrame=true*.
+To avoid full page submit and to be able to understand what is going on during upload, I chose an iframe element used as target to submit the run-time temporary created form.
+We all know that in environments under SSH, Internet Explorer could show an error about un-secure items. noSWUpload solves this problem adding to the *wrap.url* property an extra query string argument: *AjaxUploadFrame=true*.
 We can easily check for this argument in the query string and avoid every kind of operation in the page.
 For example, in the zip package the file receiver.php contains these two lines of code at the beginning:
 {{{
 if(isset($_GET['AjaxUploadFrame']))
     exit;
 }}}
-The execution of this page will the fastest possible and nothing will be executed. This will ensure us that the empty iframe will not be stressful for our server.
+In this way, the execution of this page will the fastest possible and not stressful at all. This will ensure us that the empty iframe will not be stressful for our server.
 As long as we do not know a better way to avoid Internet Explorer error if an iframe has no src defined or a fake one, I think I will stuck with this solution without problems.
 ----
 
@@ -44,7 +44,7 @@ You are obviously free to include as link or stylesheet one or more CSS (form on
 
 
 ==Do I need PHP to receive or save the file?==
-noswfupload *is* *not* *related* to the server side. The only reason I included a couple of PHP files in the zip is that PHP is one of the most used website languages and there is a particular case, which exists only with Safari 4 beta, which is hard to solve whatever on-line PHP article/resource you read. I am talking about receiving directly the input recognizing correct headers since PHP could be installed in a webserver that is not Apache and since manipulate Safari 4 beta case is not that easy for hose who are designer rather than developers. Anyway, this case is specific for Safari 4 beta support, not necessary at all with or without PHP if you do not want to support Safari 4 beta (the final release will probably use the same way of FireFox 3.5)
+*No*. noSWFUpload *is* *not* *related* to the server side. The only reason I included a couple of PHP files in the zip is that PHP is one of the most used website languages and there is a particular case, which exists only with Safari 4 beta, which is hard to solve whatever on-line PHP article/resource you read. I am talking about receiving directly the input recognizing correct headers since PHP could be installed in a webserver that is not Apache and since manipulate Safari 4 beta case is not that easy for hose who are designer rather than developers. Anyway, this case is specific for Safari 4 beta support, not necessary at all with or without PHP if you do not want to support Safari 4 beta (the final release will probably use the same way of FireFox 3.5)
 ----
 
 
