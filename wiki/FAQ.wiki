@@ -8,7 +8,7 @@ noSWFUpload should be compatible with almost every browser with JavaScript suppo
   * Internet Explorer 5.5, 6, 7, and 8 beta 2 via IETester application
   * Internet Explorer 8 RC1 and last official and stable release
   * FireFox 3, in deep 3.0.7
-  * Safari 4 beta
+  * Safari 3, Safari 4 beta
   * Chrome 1
   * Opera 10.00 alpha
 
